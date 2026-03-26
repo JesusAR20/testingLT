@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Estudio A320FAM – MTC Rev.04</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700&display=swap');
+
+:root{
+  --r:#CC0000;--rd:#880000;--az:#003087;--azl:#1a4db0;
+  --go:#111;--gm:#1c1c1c;--gc:#252525;--gf:#2e2e2e;
+  --am:#FFD700;--ve:#00c853;--bl:#ffffff;--or:#ff8c00;
+  --te:#e0e0e0;--ts:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--go);color:var(--te);font-size:15px;line-height:1.6;}
+
+/* HEADER */
+.hero{background:linear-gradient(135deg,var(--rd) 0%,var(--r) 40%,var(--az) 100%);padding:32px 40px;position:sticky;top:0;z-index:90;box-shadow:0 4px 30px rgba(0,0,0,.7);}
+.hero-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:#fff;}
+.hero p{font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.badge{background:var(--am);color:#111;padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:auto;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+/* NAV */
+.nav{background:var(--gm);padding:10px 20px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:86px;z-index:80;overflow-x:auto;}
+.nav::-webkit-scrollbar{display:none;}
+.nav a{padding:7px 14px;border-radius:7px;font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;white-space:nowrap;transition:all .18s;border:1px solid transparent;}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.09);}
+.nav a.act{background:var(--r);color:#fff;border-color:var(--r);}
+
+/* LAYOUT */
+.wrap{max-width:960px;margin:0 auto;padding:28px 24px 60px;}
+
+/* SECTION */
+.sección{margin-bottom:48px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--am);border-left:5px solid var(--r);padding-left:14px;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.sec-num{font-size:1rem;color:rgba(255,255,255,.3);letter-spacing:2px;}
+
+/* CARDS */
+.card{background:var(--gc);border-radius:12px;padding:20px 22px;margin-bottom:14px;border-left:4px solid var(--azl);}
+.card.verde{border-left-color:var(--ve);}
+.card.rojo{border-left-color:var(--r);}
+.card.amarillo{border-left-color:var(--am);}
+.card.naranja{border-left-color:var(--or);}
+.card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--am);margin-bottom:10px;}
+.card p{font-size:.9rem;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.card p:last-child{margin-bottom:0;}
+
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin:10px 0;}
+.tbl th{background:var(--r);padding:9px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:.85rem;color:#fff;}
+.tbl td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.82);vertical-align:top;}
+.tbl tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+.tbl tr:hover td{background:rgba(204,0,0,.08);}
+.tbl th.azul{background:var(--azl);}
+.tbl th.verde{background:#006633;}
+.tbl th.gris{background:#333;}
+
+/* HIGHLIGHT BOXES */
+.hbox{border-radius:10px;padding:14px 18px;margin:12px 0;font-size:.87rem;line-height:1.6;}
+.hbox.rojo{background:rgba(204,0,0,.12);border:1.5px solid rgba(204,0,0,.45);color:#ffaaaa;}
+.hbox.rojo strong{color:#ff5555;}
+.hbox.azul{background:rgba(0,48,135,.2);border:1.5px solid rgba(91,154,255,.35);color:rgba(255,255,255,.85);}
+.hbox.azul strong{color:#7eb0ff;}
+.hbox.verde{background:rgba(0,166,81,.13);border:1.5px solid rgba(0,200,83,.35);color:rgba(255,255,255,.85);}
+.hbox.verde strong{color:#00e676;}
+.hbox.amarillo{background:rgba(255,215,0,.09);border:1.5px solid rgba(255,215,0,.35);color:rgba(255,255,255,.85);}
+.hbox.amarillo strong{color:var(--am);}
+.hbox.naranja{background:rgba(255,140,0,.1);border:1.5px solid rgba(255,140,0,.35);color:rgba(255,255,255,.85);}
+.hbox.naranja strong{color:var(--or);}
+
+/* AVIÓN COMPARE GRID */
+.avion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0;}
+.avion-box{background:linear-gradient(135deg,rgba(0,48,135,.25),rgba(0,48,135,.1));border:1px solid rgba(91,154,255,.3);border-radius:10px;padding:16px;}
+.avion-box h4{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:#7eb0ff;margin-bottom:8px;}
+.avion-box li{font-size:.83rem;color:rgba(255,255,255,.78);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);list-style:none;display:flex;gap:8px;}
+.avion-box li::before{content:"▸";color:#7eb0ff;flex-shrink:0;}
+
+/* STEP LIST */
+.steps{list-style:none;padding:0;counter-reset:s;}
+.steps li{counter-increment:s;display:flex;gap:12px;margin-bottom:9px;align-items:flex-start;}
+.steps li::before{content:counter(s);background:var(--azl);color:#fff;min-width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;margin-top:2px;}
+.steps li p{font-size:.88rem;color:rgba(255,255,255,.83);line-height:1.5;}
+.steps li strong{color:#fff;}
+
+/* KEY VALUE */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:.87rem;margin:8px 0;}
+.kv .k{color:var(--am);font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;letter-spacing:.5px;white-space:nowrap;}
+.kv .v{color:rgba(255,255,255,.83);}
+
+/* PILL TAGS */
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0;}
+.pill{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.pill.r{background:rgba(204,0,0,.3);color:#ff8888;border:1px solid rgba(204,0,0,.5);}
+.pill.a{background:rgba(0,48,135,.35);color:#7eb0ff;border:1px solid rgba(91,154,255,.3);}
+.pill.v{background:rgba(0,150,70,.25);color:#80ffb0;border:1px solid rgba(0,200,83,.3);}
+.pill.am{background:rgba(255,215,0,.15);color:var(--am);border:1px solid rgba(255,215,0,.3);}
+
+/* DIVIDER */
+.div{height:1px;background:rgba(255,255,255,.07);margin:20px 0;}
+
+/* CRIT BOX */
+.crit{background:linear-gradient(135deg,rgba(140,0,0,.2),rgba(0,0,0,0));border:2px solid rgba(204,0,0,.5);border-radius:12px;padding:16px 20px;margin:14px 0;}
+.crit-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:#ff5555;margin-bottom:8px;}
+.crit p,.crit li{font-size:.87rem;color:rgba(255,255,255,.83);line-height:1.6;}
+.crit ul{padding-left:16px;}
+
+/* ACP TABLE colors */
+.col-azul{background:rgba(0,0,200,.2);color:#aaccff;}
+.col-ambar{background:rgba(200,150,0,.2);color:#ffd080;}
+.col-rojo{background:rgba(200,0,0,.2);color:#ff9090;}
+.col-verde{background:rgba(0,160,80,.2);color:#90ffb0;}
+
+@media(max-width:600px){
+  .hero{padding:18px 16px;} .wrap{padding:18px 14px;} .nav{padding:8px 12px;}
+  .avion-grid{grid-template-columns:1fr;}
+  .tbl{font-size:.78rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-row">
+    <div style="font-size:2.2rem">✈️</div>
+    <div>
+      <h1>Guía de Estudio – A320FAM</h1>
+      <p>Manual MTC Rev.04 · B2.1.1 → B2.1.28 · LATAM Airlines Perú</p>
+    </div>
+    <div class="badge">⚡ Examen Mañana</div>
+  </div>
+</div>
+
+<nav class="nav" id="topnav">
+  <a href="#b211">🛩️ Info General</a>
+  <a href="#b212">🛂 Cabina de Mando</a>
+  <a href="#b213">💺 Interior Cabina</a>
+  <a href="#b215">🪑 Jumpseats</a>
+  <a href="#b216">📱 FAP/AAP/CIDS</a>
+  <a href="#b218">💡 Iluminación</a>
+  <a href="#b2110">⚡ Circuit Breakers</a>
+  <a href="#b2111">❄️ Aire Acond.</a>
+  <a href="#b2112">💧 Agua/Desechos</a>
+  <a href="#b2113">🚻 Baños</a>
+  <a href="#b2114">🧊 Galleys</a>
+  <a href="#b2116">📡 AIP/ACP</a>
+  <a href="#b2118">☎️ Interfonía/PA</a>
+  <a href="#b2120">🚨 EVAC</a>
+  <a href="#b2121">🚪 Puertas</a>
+  <a href="#b2122">🪟 Sector Alar</a>
+  <a href="#b2123">🛝 Toboganes</a>
+  <a href="#b2124">🚣 Tobogán Balsa</a>
+  <a href="#b2125">🛤️ Tobogán Rampa</a>
+  <a href="#b2126">💨 Oxígeno</a>
+  <a href="#b2128">📋 SOPs</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════════════════ B2.1.1 ═══════════════════════ -->
+<div class="sección" id="b211">
+  <div class="sec-title"><span class="sec-num">B2.1.1</span> Información General</div>
+
+  <div class="card">
+    <h3>Características Generales del A320FAM</h3>
+    <p>Aviones de fuselaje angosto de 1 pasillo, 2 motores bajo las alas, autonomía de corto a mediano alcance (~6 horas). Sistema <strong>Fly by Wire</strong>: superficies de control eléctricamente controladas e hidráulicamente activadas mediante bastones laterales.</p>
+  </div>
+
+  <table class="tbl">
+    <tr><th>Característica</th><th>A321</th><th>A320</th><th>A319</th></tr>
+    <tr><td>Techo operacional</td><td>39.000 pies</td><td>39.000 pies</td><td>39.000 pies</td></tr>
+    <tr><td>Velocidad crucero</td><td>880 km/h</td><td>880 km/h</td><td>880 km/h</td></tr>
+    <tr><td>Largo fuselaje</td><td>44,51 mts</td><td>37,57 mts</td><td>33,84 mts</td></tr>
+    <tr><td>Envergadura</td><td>34,1 mts</td><td>34,1 mts</td><td>34,1 mts</td></tr>
+    <tr><td>Altura puerta al suelo</td><td>3,40 mts</td><td>3,40 mts</td><td>3,40 mts</td></tr>
+    <tr><td>Asientos</td><td>224</td><td>180</td><td>144</td></tr>
+  </table>
+
+  <div class="div"></div>
+  <div class="card amarillo">
+    <h3>Sistemas Clave a Recordar</h3>
+    <div class="kv">
+      <span class="k">APU</span><span class="v">Turbina en el empenaje. Suministra energía eléctrica y neumática. Funciona en tierra y/o en vuelo.</span>
+      <span class="k">Tren aterrizaje</span><span class="v">2 conjuntos principales (retraen lateralmente al fuselaje) + 1 tren de nariz (retrae hacia adelante).</span>
+      <span class="k">Combustible</span><span class="v">2 tanques en alas + 1 central. Recarga a PRESIÓN por ala RH. SIN vaciado rápido.</span>
+      <span class="k">Bodegas</span><span class="v">A321/320/319: 2 bodegas presurizadas. A321/A320 también tienen BULK (calefaccionada). Acceso por lado RH.</span>
+      <span class="k">Eléctrico</span><span class="v">Fuente primaria: generadores de motores. Alternativas: APU o carro de tierra.</span>
+      <span class="k">Presurización</span><span class="v">Controlada por válvulas out flow en parte posterior. A 39.000 pies → altitud de cabina = 8.000 pies.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.2 ═══════════════════════ -->
+<div class="sección" id="b212">
+  <div class="sec-title"><span class="sec-num">B2.1.2</span> Cabina de Mando</div>
+
+  <div class="card">
+    <h3>Puerta de la Cabina de Mando</h3>
+    <p>Blindada. Resiste impacto de municiones de pequeño calibre y explosivos de fragmentación. Se asegura <strong>automáticamente al cerrarse</strong>. Tiene visor para visualizar la cabina desde el cockpit.</p>
+    <div class="hbox amarillo" style="margin-top:10px">
+      <strong>Panel de escape:</strong> permite a la TM evacuar el cockpit cuando la puerta se atasca. Solo puede removerse desde dentro del cockpit tirando pasadores de liberación rápida hacia el centro y empujando.
+    </div>
+  </div>
+
+  <div class="card verde">
+    <h3>Switch COCKPIT DOOR – 3 posiciones</h3>
+    <table class="tbl">
+      <tr><th>Posición</th><th>Qué hace</th></tr>
+      <tr><td><strong>UNLOCK</strong></td><td>Permite acceso de TC. Tirar y mantener hasta que la puerta sea abierta. Luz VERDE en key pad. Sobrecomanda cualquier selección previa.</td></tr>
+      <tr><td><strong>NORM</strong></td><td>Seguros bloqueados. TC puede acceder en emergencia vía key pad.</td></tr>
+      <tr><td><strong>LOCK</strong></td><td>Puerta bloqueada. Inhibe acceso emergencia, bocina y key pad por <strong>5 a 20 minutos</strong>.</td></tr>
+    </table>
+  </div>
+
+  <div class="card rojo">
+    <h3>Indicador KEY PAD – 3 estados</h3>
+    <table class="tbl">
+      <tr><th>Luz</th><th>Significado</th></tr>
+      <tr><td><span class="pill v">VERDE FIJA</span></td><td>Puerta desasegurada por TM (o automáticamente 5 seg.). Puede ser empujada.</td></tr>
+      <tr><td><span class="pill am">VERDE INTERMITENTE</span></td><td>Se ingresó código emergencia. Bocina suena en cockpit. TM no ha tomado acción.</td></tr>
+      <tr><td><span class="pill r">ROJA FIJA</span></td><td>TM denegó el acceso. Puerta permanece asegurada.</td></tr>
+    </table>
+    <div class="hbox rojo" style="margin-top:10px"><strong>Falla eléctrica:</strong> puerta se DESBLOQUEA automáticamente pero permanece CERRADA. En descompresión rápida: también se desbloquea automáticamente.</div>
+  </div>
+
+  <div class="card azul">
+    <h3>CDSS – Cockpit Door Surveillance System</h3>
+    <p><strong>3 cámaras infrarrojas:</strong> Cámara 1 = frente a la puerta del cockpit / Cámara 2 = área alrededor de puerta 1L / Cámara 3 = área alrededor de puerta 1R.</p>
+  </div>
+
+  <div class="card">
+    <h3>Ventanas Deslizables del Cockpit</h3>
+    <p>Las 2 ventanas deslizables pueden usarse como <strong>vías de evacuación alternativa</strong>. Sobre cada ventana: cuerda de escape de <strong>5,5 metros con nudos</strong> en compartimento con etiqueta roja. Soporta <strong>181 kg</strong>.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.3 ═══════════════════════ -->
+<div class="sección" id="b213">
+  <div class="sec-title"><span class="sec-num">B2.1.3</span> Interior de Cabina</div>
+
+  <div class="card">
+    <h3>Zonas de Cabina de Pasajeros</h3>
+    <div class="pills">
+      <span class="pill a">A321: Zonas A – B – C</span>
+      <span class="pill a">A320/A319: Zonas A – B</span>
+    </div>
+    <p>La cabina va desde la puerta de la cabina de mando hasta el galley AFT. Cada TC tiene una zona asignada, aunque debe conocer todos los sistemas del avión.</p>
+  </div>
+
+  <div class="card amarillo">
+    <h3>Asientos de Pasajeros</h3>
+    <div class="kv">
+      <span class="k">Configuración</span><span class="v">Bloques A-B-C y D-E-F. 1 pasillo central.</span>
+      <span class="k">Elemento flotación A321</span><span class="v">Siempre CHALECO SALVAVIDAS. El cojín NO está certificado.</span>
+      <span class="k">Elemento flotación A320/A319</span><span class="v">COJÍN o CHALECO según letrero frente al asiento.</span>
+      <span class="k">Respaldos</span><span class="v">Reclinables, excepto los ubicados en accesos a salidas de emergencia.</span>
+    </div>
+  </div>
+
+  <div class="card verde">
+    <h3>Airbelt – Cinturón con Airbag</h3>
+    <p>Almacena bolsa (airbag) en una de las correas. Al impacto severo, sensores activan el inflado automáticamente. Se desinfla segundos después.</p>
+    <table class="tbl" style="margin-top:10px">
+      <tr><th class="verde">SÍ pueden usar airbelt</th><th class="rojo">NO pueden usar airbelt</th></tr>
+      <tr><td>Adultos</td><td>Adulto que requiere extensión estándar de cinturón</td></tr>
+      <tr><td>Adulto con infante en brazos</td><td>Adulto con dispositivos de sujeción para discapacitados</td></tr>
+      <tr><td>Niños mayores de 2 años</td><td></td></tr>
+      <tr><td>Menor con CARES</td><td></td></tr>
+      <tr><td>Infante en CRS + extensión para airbelt</td><td></td></tr>
+    </table>
+    <div class="hbox naranja" style="margin-top:10px"><strong>Ubicación de airbelt:</strong> Algunos A321: fila 1 / Algunos A320: fila 1 / Algunos A319: filas 1 a 4.</div>
+  </div>
+
+  <div class="card">
+    <h3>PSU – Passenger Service Unit</h3>
+    <p>Sobre cada fila de asientos. Contiene: señales no fumar/cinturones, luz de lectura, botón y luz de llamada a TC, parlante, boquillas de aire individuales y <strong>generador de oxígeno químico + máscaras</strong>. Cada bloque de 3 asientos tiene <strong>1 máscara extra</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h3>OHB – Overhead Bins</h3>
+    <p>Compartimentos en el techo para equipaje y equipo de emergencia. Pueden ser <strong>fijos o movibles (pivot)</strong>. Tienen pasamanos, barra stopper y algunos cuentan con espejos internos.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.4 / B2.1.5 ═══════════════════════ -->
+<div class="sección" id="b215">
+  <div class="sec-title"><span class="sec-num">B2.1.4/5</span> Estaciones TC y Jumpseats</div>
+
+  <div class="card amarillo">
+    <h3>Estaciones de Tripulación de Cabina – Equipamiento</h3>
+    <p>Ubicadas en puertas FWD, MID y AFT (A321) o FWD y AFT (A320/A319). Cada estación tiene:</p>
+    <div class="pills" style="margin-top:8px">
+      <span class="pill a">1 o 2 Jumpseats</span>
+      <span class="pill a">Máscara O₂ cercana</span>
+      <span class="pill a">Equipo emergencia</span>
+      <span class="pill a">FAP</span>
+      <span class="pill a">AIP</span>
+      <span class="pill a">AAP</span>
+      <span class="pill a">Interfonos</span>
+      <span class="pill r">EVAC RESET solo en A321 puertas 2R/3R</span>
+    </div>
+  </div>
+
+  <div class="avion-grid">
+    <div class="avion-box">
+      <h4>A321 CEO</h4>
+      <ul>
+        <li>7 jumpseats total</li>
+        <li>2 JS en puerta 1L</li>
+        <li>1 JS en puerta 2R</li>
+        <li>1 JS en puerta 3R</li>
+        <li>1 JS en puerta 4L</li>
+        <li>2 JS en puerta 4R</li>
+      </ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 LOPA ÚNICO</h4>
+      <ul>
+        <li>5 jumpseats total</li>
+        <li>2 JS en puerta 1L</li>
+        <li>2 JS en puerta 4R</li>
+        <li>1 JS en puerta 4L</li>
+        <li>Monitor galley AFT</li>
+        <li>Ventana panel frente a JS 1L</li>
+      </ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 SPACE FLEX 1</h4>
+      <ul>
+        <li>6 jumpseats total</li>
+        <li>2 JS en puerta 1L</li>
+        <li>2 JS en puerta 4L</li>
+        <li>1 JS en puerta 4R</li>
+        <li>1 JS giratorio en galley</li>
+        <li>Puertas 1 y 4 son IGUALES</li>
+      </ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 JS BAÑO AFT</h4>
+      <ul>
+        <li>5 jumpseats total</li>
+        <li>2 JS en puerta 1L</li>
+        <li>2 JS en puerta 4R</li>
+        <li>1 JS adosado a puerta del baño (Lg o Le)</li>
+        <li>Baño debe estar cerrado/asegurado</li>
+        <li>Seguro TTL en posición baja</li>
+      </ul>
+    </div>
+    <div class="avion-box">
+      <h4>A319</h4>
+      <ul>
+        <li>5 jumpseats total</li>
+        <li>2 JS en puerta 1L</li>
+        <li>2 JS en puerta 4R</li>
+        <li>1 JS en puerta 4L (adosado al baño Lf)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card rojo">
+    <h3>Monitor Galley AFT – A320/A321 LOPA ÚNICO</h3>
+    <p>Permite visualizar la cabina durante rodaje, despegue y aterrizaje (los JS AFT no tienen visión directa).</p>
+    <div class="kv" style="margin-top:8px">
+      <span class="k">Componentes</span><span class="v">1 cámara en partition RH AFT + 1 monitor galley AFT + 2 emisores infrarrojos en PSU central.</span>
+      <span class="k">Operación</span><span class="v">El monitor se enciende automáticamente al sacarlo. Sacar para rodaje/despegue/aterrizaje. Guardar en crucero.</span>
+      <span class="k">Si falla</span><span class="v">Informar TM. TC3 se sienta en asiento PASILLO ÚLTIMA FILA LADO DERECHO para el aterrizaje.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Panel Frente a JS Puerta 1L – A320 LOPA ÚNICO</h3>
+    <p>Ventana inteligente: <strong>ON = TRANSPARENTE</strong> (permite ver la cabina). <strong>OFF = OPACA</strong>. Batería de respaldo mínimo 30 minutos.</p>
+    <div class="hbox amarillo"><strong>Debe estar ENCENDIDA (ON):</strong> durante embarque, rodaje, despegue, aterrizaje y cuando se activa la señal de cinturones. Sin energía: APAGAR para preservar batería.</div>
+  </div>
+
+  <div class="card verde">
+    <h3>JS Giratorio – A320 Space Flex 1</h3>
+    <p><strong>NO usar</strong> durante rodaje, despegue y aterrizaje a menos que esté asegurado.</p>
+    <div class="hbox verde"><strong>Para desasegurar:</strong> girar seguro en contra reloj → posición desasegurado → girar JS 270° → empujar hasta asegurar.<br><strong>Para asegurar:</strong> levantar manilla superior costado izquierdo → mover JS 270° hacia atrás → girar seguro en sentido horario.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.6 FAP/AAP ═══════════════════════ -->
+<div class="sección" id="b216">
+  <div class="sec-title"><span class="sec-num">B2.1.6/7/15</span> FAP · AAP · CIDS</div>
+
+  <div class="card amarillo">
+    <h3>FAP Digital – Páginas Automáticas (por Prioridad)</h3>
+    <table class="tbl">
+      <tr><th>Prioridad</th><th>Página</th><th>Cuándo aparece</th></tr>
+      <tr><td><strong>1°</strong></td><td>SMOKE</td><td>Alarma de humo. Sobrecomanda todo.</td></tr>
+      <tr><td><strong>2°</strong></td><td>DOORS/SLIDES</td><td>Cambio en estado de puertas/toboganes.</td></tr>
+      <tr><td><strong>3°</strong></td><td>WATER/WASTE</td><td>Falla en sistema agua/desechos.</td></tr>
+      <tr><td><strong>4°</strong></td><td>SYSTEM INFO</td><td>Mensajes de sistemas (drainmast, ice protect, CIDS).</td></tr>
+      <tr><td><strong>5°</strong></td><td>AUDIO</td><td>–</td></tr>
+      <tr><td><strong>6°</strong></td><td>SOFTWARE DOWNLOAD</td><td>–</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>DOORS/SLIDES en FAP Digital</h3>
+    <table class="tbl">
+      <tr><th>Color en el diagrama</th><th>Ubicación</th><th>Significa</th></tr>
+      <tr><td><span class="pill r">ROJO</span></td><td>Exterior del diagrama</td><td>Puerta ABIERTA</td></tr>
+      <tr><td><span class="pill am">ÁMBAR</span></td><td>Interior del diagrama</td><td>Puerta cerrada, tobogán DESARMADO</td></tr>
+      <tr><td><span class="pill v">VERDE</span></td><td>Interior del diagrama</td><td>Puerta cerrada, tobogán ARMADO ✓</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>FAP Analógico – Sub Panel (Hard Keys)</h3>
+    <table class="tbl">
+      <tr><th>Botón</th><th>Estado</th><th>Significa</th></tr>
+      <tr><td>DOORS CLOSED</td><td>Luces verdes APAGADAS</td><td>1 o más puertas abiertas (no especifica cuál)</td></tr>
+      <tr><td>SLIDES ARMED</td><td>Verde FIJO</td><td>TODOS los toboganes ARMADOS ✓</td></tr>
+      <tr><td>SLIDES ARMED</td><td>Verde INTERMITENTE</td><td>1 o más toboganes DESARMADOS ⚠️</td></tr>
+      <tr><td>SLIDES ARMED</td><td>APAGADO</td><td>TODOS los toboganes desarmados</td></tr>
+      <tr><td>SMOKE LAV</td><td>Luces fijas</td><td>Alarma de humo en baño activada</td></tr>
+      <tr><td>EVAC</td><td>Intermitente</td><td>EVAC Command activado</td></tr>
+    </table>
+    <div class="hbox rojo" style="margin-top:10px"><strong>Botón &lt;RESET&gt;:</strong> Silencia alarma de humo en TODO el avión + silencia señal auditiva de evacuación para puertas FWD.</div>
+  </div>
+
+  <div class="card verde">
+    <h3>AAP – Additional Attendant Panel</h3>
+    <p>Ubicado al costado de la puerta <strong>4L</strong> (y 4R en A320 Space Flex 2). Controla:</p>
+    <div class="pills" style="margin-top:8px">
+      <span class="pill a">ENTRY BRT/DIM1/DIM2</span>
+      <span class="pill a">CABIN BRT/DIM1/DIM2</span>
+      <span class="pill r">EVAC RESET (silencia AFT)</span>
+      <span class="pill r">EVAC (luz roja intermitente)</span>
+      <span class="pill am">SMOKE RESET (solo FAP digital)</span>
+    </div>
+  </div>
+
+  <div class="card azul">
+    <h3>CIDS – Cabin Intercommunication Data System</h3>
+    <p>Opera, controla y monitorea los sistemas de cabina. Conectado a: aire acondicionado, comunicaciones, protección de fuego/hielo, iluminación, agua y desechos. Componentes: FAP, AAP, AIP, ACP, interfonos, parlantes, botones llamada pax, luces lectura, señales.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.8/9 ILUMINACIÓN ═══════════════════════ -->
+<div class="sección" id="b218">
+  <div class="sec-title"><span class="sec-num">B2.1.8/9</span> Iluminación Normal y de Emergencia</div>
+
+  <div class="card">
+    <h3>Intensidades de Iluminación</h3>
+    <table class="tbl">
+      <tr><th>Símbolo</th><th>Intensidad</th></tr>
+      <tr><td><strong>BRT</strong></td><td>100%</td></tr>
+      <tr><td><strong>DIM 1</strong></td><td>~50%</td></tr>
+      <tr><td><strong>DIM 2</strong></td><td>~10%</td></tr>
+    </table>
+    <p style="margin-top:10px;font-size:.85rem;color:var(--ts)">Las luces cercanas al cockpit en zona FWD se atenúan automáticamente cuando se abre la puerta del cockpit (evita encandilamiento, solo con motor funcionando). En descompresión: todas las luces a máxima intensidad.</p>
+  </div>
+
+  <div class="card amarillo">
+    <h3>Iluminación de Emergencia – Cuándo se activa</h3>
+    <div class="kv">
+      <span class="k">Operación normal</span><span class="v">Al bajar el tren de aterrizaje → se encienden automáticamente las luces EXIT fijas y Exit Markers.</span>
+      <span class="k">Automática emergencia</span><span class="v">Cuando falla la iluminación general / corte eléctrico (switch en ARM) / pérdida de presión de cabina.</span>
+      <span class="k">Manual</span><span class="v">Switch ON en cockpit o botón EMER (sobre comando) en FAP. Activa independiente del switch del cockpit.</span>
+    </div>
+  </div>
+
+  <div class="card verde">
+    <h3>Tipos de Luces de Emergencia Interiores</h3>
+    <div class="kv">
+      <span class="k">Luces fijas EXIT</span><span class="v">Sobre cada puerta, salida alar, y en techo indicando áreas de salida. En aviones interchange: 3 idiomas (PT/ES/EN).</span>
+      <span class="k">Indicaciones piso</span><span class="v">Franjas FOTO LUMINISCENTES que se interrumpen al llegar a la salida. Alternativa cuando hay humo.</span>
+      <span class="k">Exit Markers</span><span class="v">Indicaciones EXIT próximas al piso, cerca de las salidas de emergencia.</span>
+      <span class="k">Luces de techo</span><span class="v">Luces fijas a lo largo del pasillo y sobre cada puerta.</span>
+    </div>
+  </div>
+
+  <div class="card rojo">
+    <h3>Luces de Emergencia en Toboganes</h3>
+    <p>Cada tobogán/tobogán balsa/tobogán rampa tiene sistema de iluminación integral que muestra el área de deslizamiento de arriba a abajo.</p>
+    <div class="hbox rojo"><strong>Se activan AUTOMÁTICAMENTE</strong> cuando la puerta/salida alar es abierta y el tobogán se infla. Permanecen encendidas mientras el tobogán está ADOSADO AL AVIÓN.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.10 CIRCUIT BREAKERS ═══════════════════════ -->
+<div class="sección" id="b2110">
+  <div class="sec-title"><span class="sec-num">B2.1.10</span> Circuit Breakers</div>
+  <div class="card rojo">
+    <h3>⚡ Regla Fundamental</h3>
+    <p>Hay 2 paneles eléctricos (2000VU delantero y 2001VU posterior). Cada CB identifica su función en la parte inferior. Localización por matriz de números y letras.</p>
+    <div class="hbox rojo"><strong>PROHIBIDO resetear un circuit breaker cortado.</strong> Si se resetea, se puede causar una sobrecarga a otro sistema. Solo mantenimiento puede resetearlos.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.11 AIRE ACONDICIONADO ═══════════════════════ -->
+<div class="sección" id="b2111">
+  <div class="sec-title"><span class="sec-num">B2.1.11</span> Aire Acondicionado</div>
+  <div class="card">
+    <h3>Control de Temperatura</h3>
+    <div class="kv">
+      <span class="k">Rango</span><span class="v">18°C a 30°C (controlado desde cabina de mando o FAP).</span>
+      <span class="k">Desde FAP</span><span class="v">Variación limitada a ±2,5°C respecto a lo seleccionado en cockpit. Solo en FAP DIGITAL.</span>
+      <span class="k">FAP Analógico</span><span class="v">Control de temperatura SOLO desde la cabina de mando.</span>
+      <span class="k">Zonas</span><span class="v">2 áreas: FWD y AFT.</span>
+      <span class="k">Estabilización</span><span class="v">~20 minutos: 10 min ajuste + 10 min disipación de calor en tapices y mobiliario.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.12 AGUA Y DESECHOS ═══════════════════════ -->
+<div class="sección" id="b2112">
+  <div class="sec-title"><span class="sec-num">B2.1.12</span> Sistema de Agua y Desechos</div>
+  <div class="card amarillo">
+    <h3>Datos Clave</h3>
+    <div class="kv">
+      <span class="k">Tanque agua</span><span class="v">200 litros. Parte baja del fuselaje, compartimento carga posterior, lado IZQUIERDO.</span>
+      <span class="k">Presurización</span><span class="v">Por aire comprimido para asegurar suministro.</span>
+      <span class="k">Reabastecimiento</span><span class="v">Panel de servicio en fuselaje lado izquierdo.</span>
+      <span class="k">Tanque desechos</span><span class="v">170 litros. Sistema por presión diferencial. NO funciona en tierra cuando está siendo vaciado.</span>
+      <span class="k">Drain masts</span><span class="v">2 tubos calefaccionados para drenar agua de lavamanos y galleys al exterior.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.13 BAÑOS ═══════════════════════ -->
+<div class="sección" id="b2113">
+  <div class="sec-title"><span class="sec-num">B2.1.13</span> Baños</div>
+
+  <div class="avion-grid">
+    <div class="avion-box">
+      <h4>A321 LOPA ÚNICO</h4>
+      <ul><li>1 baño FWD: La</li><li>2 baños AFT: Gs / Fs</li><li>Extintor/manómetro en baño Fs</li></ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 LOPA ÚNICO</h4>
+      <ul><li>1 baño FWD: La</li><li>2 baños AFT: Fs / Gs</li></ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 SPACE FLEX 1</h4>
+      <ul><li>1 baño FWD: La</li><li>2 baños AFT: Lw / Lc</li></ul>
+    </div>
+    <div class="avion-box">
+      <h4>A320 JS BAÑO AFT</h4>
+      <ul><li>1 baño FWD: La</li><li>2 baños AFT: Lg/Le ó Lf/Ld</li></ul>
+    </div>
+    <div class="avion-box">
+      <h4>A319</h4>
+      <ul><li>1 baño FWD: La</li><li>1 baño AFT: Lf</li></ul>
+    </div>
+  </div>
+
+  <div class="card rojo">
+    <h3>Alarma de Humo en Baño – Señales</h3>
+    <div class="pills">
+      <span class="pill r">Triple chime LO (cada 30 seg.)</span>
+      <span class="pill r">Luz roja intermitente en todos los AIP</span>
+      <span class="pill am">Luz ámbar intermitente en ACP del área</span>
+      <span class="pill am">Luz ámbar afuera del baño</span>
+      <span class="pill r">SMOKE DETECTED en FAP digital</span>
+      <span class="pill am">SMOKE LAV en FAP analógico</span>
+    </div>
+    <div class="hbox verde" style="margin-top:10px"><strong>RESET / SMOKE RESET</strong> silencian las señales AUDITIVAS. Las señales visuales se apagan cuando CESA el humo.</div>
+  </div>
+
+  <div class="card verde">
+    <h3>Extintor Fijo en Baños</h3>
+    <p>Esfera roja con <strong>halon/freón</strong>. Descarga automática cuando la temperatura funde el material que sella la punta del tubo. Manómetro debe estar en <strong>rango verde</strong>.</p>
+    <div class="hbox amarillo"><strong>A321/A320 Lopa Único:</strong> Los baños Fs y Gs comparten 1 contenedor de basura en el baño Fs. El manómetro y extintor están en el baño Fs; para acceder al manómetro: abrir la tapa del compartimiento de basura.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.14 GALLEYS ═══════════════════════ -->
+<div class="sección" id="b2114">
+  <div class="sec-title"><span class="sec-num">B2.1.14</span> Galleys</div>
+  <div class="card">
+    <h3>Tipos de Seguros</h3>
+    <table class="tbl">
+      <tr><th>Tipo</th><th>Uso</th><th>Operación</th></tr>
+      <tr><td>1/4 de vuelta</td><td>Asegurar trolleys y gabinetes</td><td>Girar 90°</td></tr>
+      <tr><td>Seguro intermedio</td><td>Carros en posiciones dobles</td><td>Girar 90°. NO usar en taxeo/despegue/aterrizaje/turbulencia</td></tr>
+      <tr><td>Seguro de puertas (slam/sliding)</td><td>Puertas compartimentos</td><td>Punto verde = cerrado / Punto rojo = desbloqueado</td></tr>
+    </table>
+  </div>
+  <div class="card rojo">
+    <h3>Reglas para Hornos</h3>
+    <p>Solo para calentar alimentos. No guardar otros elementos. No encender en abastecimiento de combustible. Cuando encendidos sin TC en galley: cortinas del galley ABIERTAS, TC atenta a posible fuego.</p>
+  </div>
+  <div class="card verde">
+    <h3>Puerta Seguridad Galley AFT – A320 Space Flex 1</h3>
+    <p>Debe permanecer cerrada para permitir el asegurado del jumpseat giratorio en posición con visión hacia la cabina.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.16/17 AIP/ACP ═══════════════════════ -->
+<div class="sección" id="b2116">
+  <div class="sec-title"><span class="sec-num">B2.1.16/17</span> AIP y ACP</div>
+
+  <div class="card">
+    <h3>AIP – Attendant Indication Panel</h3>
+    <p>Pantalla alfanumérica cerca de cada estación TC. Muestra origen/destino de llamada o sistema de alerta activado.</p>
+    <div class="kv" style="margin-top:8px">
+      <span class="k">Verde fija</span><span class="v">Comunicación normal.</span>
+      <span class="k">Roja intermitente</span><span class="v">Llamado emergencia desde cockpit / alarma humo / falla succión / EVAC CMD activado.</span>
+    </div>
+  </div>
+
+  <div class="card amarillo">
+    <h3>ACP – Tabla de Colores y Modos (MEMORIZAR)</h3>
+    <table class="tbl">
+      <tr><th>Información</th><th>Color ACP</th><th>Modo</th></tr>
+      <tr><td>Llamada pax desde baño</td><td class="col-ambar">ÁMBAR</td><td>FIJA</td></tr>
+      <tr><td>Humo en baño</td><td class="col-ambar">ÁMBAR</td><td>INTERMITENTE</td></tr>
+      <tr><td>Llamada desde cockpit (normal)</td><td class="col-rojo">ROJA</td><td>FIJA</td></tr>
+      <tr><td>Llamada emergencia desde cockpit</td><td class="col-rojo">ROJA</td><td>INTERMITENTE</td></tr>
+      <tr><td>Llamada entre estaciones TC</td><td class="col-rojo">ROJA</td><td>FIJA</td></tr>
+      <tr><td>Llamada pax desde asiento</td><td class="col-azul">AZUL</td><td>FIJA (nunca intermitente)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.18/19 INTERFONÍA/PA ═══════════════════════ -->
+<div class="sección" id="b2118">
+  <div class="sec-title"><span class="sec-num">B2.1.18/19</span> Interfonía y Sistema PA</div>
+
+  <div class="card amarillo">
+    <h3>Interfonos por Flota (memorizar)</h3>
+    <table class="tbl">
+      <tr><th>Avión</th><th>Cantidad</th><th>Ubicaciones</th></tr>
+      <tr><td>A321 CEO</td><td>5</td><td>1L, 2R, 3R, 4L y JS giratorio</td></tr>
+      <tr><td>A320 y A320 Space Flex 1</td><td>3</td><td>1L, 4L y JS giratorio</td></tr>
+      <tr><td>A320 JS Baño AFT</td><td>3</td><td>1L, 4R y JS del baño (Lg o Le)</td></tr>
+      <tr><td>A319</td><td>3</td><td>1L, 4L y 4R</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Funciones del Interfono – Botones Clave</h3>
+    <table class="tbl">
+      <tr><th>Función</th><th>Botones</th></tr>
+      <tr><td>Llamada normal al cockpit</td><td>CAPT</td></tr>
+      <tr><td>Llamada EMERGENCIA al cockpit</td><td>EMER CALL</td></tr>
+      <tr><td>Llamada a estación TC individual</td><td>INTPH + FWD / MID / EXIT / AFT</td></tr>
+      <tr><td>Conferencia a TODOS los TC</td><td>INTPH + ALL</td></tr>
+      <tr><td>Anuncio PA</td><td>PA + mantener PTT</td></tr>
+    </table>
+    <div class="hbox azul" style="margin-top:10px"><strong>Llamada cockpit → TC:</strong> 1 HI/LO chime, luz roja fija en ACP. <strong>Llamada emergencia cockpit → TC:</strong> 3 HI/LO chimes en todas las estaciones TC, luz roja INTERMITENTE en TODOS los ACP.</div>
+  </div>
+
+  <div class="card verde">
+    <h3>Prioridades del Sistema PA</h3>
+    <div class="steps">
+      <li><p><strong>1° COCKPIT</strong> — máxima prioridad sobre todo</p></li>
+      <li><p><strong>2° TC desde cabina</strong> — tiene prioridad sobre el entretenimiento</p></li>
+      <li><p><strong>3° Sistema de entretenimiento</strong> — menor prioridad</p></li>
+    </div>
+    <div class="hbox verde" style="margin-top:10px">El volumen del PA aumenta automáticamente cuando se encienden los motores y en caso de DESCOMPRESIÓN.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.20 EVAC ═══════════════════════ -->
+<div class="sección" id="b2120">
+  <div class="sec-title"><span class="sec-num">B2.1.20</span> Sistema de Alerta de Evacuación – EVAC</div>
+
+  <div class="card rojo">
+    <h3>Switch CAPT / CAPT & PURS</h3>
+    <table class="tbl">
+      <tr><th>Posición</th><th>Quién puede activar EVAC CMD</th></tr>
+      <tr><td><strong>CAPT & PURS</strong></td><td>Desde la cabina de mando Y desde el FAP</td></tr>
+      <tr><td><strong>CAPT</strong></td><td>Solo desde el cockpit</td></tr>
+    </table>
+  </div>
+  <div class="card amarillo">
+    <h3>Controles EVAC en el Avión</h3>
+    <div class="kv">
+      <span class="k">FAP → EVAC CMD</span><span class="v">Solo para ACTIVAR el sistema.</span>
+      <span class="k">FAP → EVAC RESET</span><span class="v">Silencia alarma auditiva.</span>
+      <span class="k">AAP → EVAC</span><span class="v">Luz roja intermitente cuando está activo.</span>
+      <span class="k">AAP → EVAC RESET</span><span class="v">Silencia alarma auditiva puertas AFT.</span>
+      <span class="k">A321 → puertas 2R y 3R</span><span class="v">Botón EVAC RESET adicional (mismo efecto que AAP).</span>
+      <span class="k">Cockpit → HORN SHUT OFF</span><span class="v">Silencia alarma auditiva en la CABINA DE MANDO.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.21 PUERTAS ═══════════════════════ -->
+<div class="sección" id="b2121">
+  <div class="sec-title"><span class="sec-num">B2.1.21</span> Puertas</div>
+
+  <div class="card amarillo">
+    <h3>Número de Puertas por Avión</h3>
+    <div class="kv">
+      <span class="k">A321 CEO</span><span class="v">8 puertas: 1L, 1R, 2L, 2R, 3L, 3R, 4L, 4R. Las puertas 2 y 3 son SOLO para emergencia (no embarque).</span>
+      <span class="k">A320 / A319</span><span class="v">4 puertas: 1L, 1R, 4L, 4R. Todas son salidas principales en tierra y agua.</span>
+    </div>
+    <div class="hbox azul" style="margin-top:10px">Apertura desde el EXTERIOR: desarma automáticamente el tobogán. Movimiento de puertas: hacia adentro y luego hacia afuera y hacia adelante (dirección nariz).</div>
+  </div>
+
+  <div class="card">
+    <h3>Componentes de la Puerta (puertas 1 y 4)</h3>
+    <table class="tbl">
+      <tr><th>Componente</th><th>Descripción / Función</th></tr>
+      <tr><td>Palanca apertura/cierre</td><td>Mango NARANJA. Arriba=DESASEGURA / Abajo=ASEGURA.</td></tr>
+      <tr><td>Indicador Locked/Unlocked</td><td>Parte superior puerta. LOCKED verde = asegurada / UNLOCKED rojo = no asegurada.</td></tr>
+      <tr><td>Palanca armado/desarmado</td><td>Palanca AMARILLA. Abajo=ARMED / Arriba=DISARMED.</td></tr>
+      <tr><td>Visor ARMED/DISARMED</td><td>Junto a palanca amarilla. ARMED en ROJO / DISARMED en VERDE.</td></tr>
+      <tr><td>Indicación en piso</td><td>Flecha naranja. Círculo naranja alineado con flecha = ARMADO.</td></tr>
+      <tr><td>PIN de seguridad</td><td>Metal removible + cinta roja "REMOVE BEFORE FLIGHT".</td></tr>
+      <tr><td>Gust Lock</td><td>En brazo de la puerta. Asegura puerta en posición ABIERTA. Presionarlo = permite cerrarla.</td></tr>
+      <tr><td>Cinta de seguridad</td><td>Negra/amarilla. Instalar cuando puerta abierta SIN manga/escalera.</td></tr>
+      <tr><td>Manómetro</td><td>En cubierta del dispositivo de evacuación. Indica presión del tobogán.</td></tr>
+      <tr><td>Amortiguador/Actuador</td><td>Cilindro de NITRÓGENO. Normal: amortigua movimiento. Emergencia: empuja la puerta con fuerza.</td></tr>
+      <tr><td>Luz SLIDE ARMED (blanca fija)</td><td>Tobogán armado + palanca levemente subida.</td></tr>
+      <tr><td>Luz CABIN PRESSURE (roja intermitente)</td><td>Presión residual en cabina → NO ABRIR la puerta.</td></tr>
+    </table>
+  </div>
+
+  <div class="card rojo">
+    <h3>Diferencias Puertas 2 y 3 del A321</h3>
+    <table class="tbl">
+      <tr><th>Característica</th><th>Puertas 1/4</th><th>Puertas 2/3 A321</th></tr>
+      <tr><td>Contenedor tobogán</td><td>Adosado a la puerta (visible)</td><td>En la PARTE BAJA DEL FUSELAJE (no visible)</td></tr>
+      <tr><td>Manómetro</td><td>En cubierta del tobogán</td><td>En el OHB SOBRE la puerta</td></tr>
+      <tr><td>PULL TO INFLATE</td><td>En el piso</td><td>Lado SUPERIOR DERECHO del marco (visible solo con puerta abierta)</td></tr>
+      <tr><td>Indicador piso armado</td><td>Sí tiene</td><td>NO tiene</td></tr>
+      <tr><td>PIN armado</td><td>En brazo de puerta opuesta</td><td>En BOLSILLO bajo el jumpseat</td></tr>
+      <tr><td>Apertura emergencia</td><td>Se abre hacia afuera</td><td>Se mueve HACIA ARRIBA 3 seg. para que el tobogán se despliegue, luego se abre</td></tr>
+      <tr><td>Ditching</td><td>Tobogán se puede desconectar</td><td>Tobogán NO se desconecta → deben DESARMARSE antes</td></tr>
+    </table>
+  </div>
+
+  <div class="card verde">
+    <h3>Procedimiento ARMADO de Tobogán A320/A319</h3>
+    <div class="hbox amarillo">Orden del Comandante (PA): <strong>"TRIPULACIÓN, PUERTAS EN AUTOMÁTICO, CROSS CHECK Y REPORTAR"</strong> → señal de primer movimiento en los próximos 10 min.</div>
+    <ol class="steps" style="margin-top:12px">
+      <li><p><strong>Retirar el PIN</strong> de seguridad de su puerta.</p></li>
+      <li><p><strong>Bajar la palanca amarilla</strong> a posición ARMED.</p></li>
+      <li><p><strong>Verificar tobogán ARMADO</strong> en su puerta (ARMED en rojo + círculo naranja alineado).</p></li>
+      <li><p><strong>Verificar en la puerta opuesta</strong> (cross check).</p></li>
+      <li><p><strong>Insertar PIN</strong> en el orificio sobre el brazo de la puerta OPUESTA, dejando la cinta GUARDADA (no visible).</p></li>
+      <li><p><strong>Reportar</strong> al JSB. JSB llama INTPH+AFT → "Puertas 4" → TC2 responde "Puertas 4 en automático".</p></li>
+      <li><p>JSB verifica en FAP: verde en DOORS/SLIDES (digital) o luces verdes fijas SLIDES ARMED (analógico).</p></li>
+    </ol>
+  </div>
+
+  <div class="card rojo">
+    <h3>Procedimiento DESARMADO de Tobogán A320/A319</h3>
+    <div class="hbox rojo">Orden del Comandante (PA): <strong>"TRIPULACIÓN, PUERTAS EN MANUAL, CROSS CHECK Y REPORTAR"</strong> → al llegar a posición final de estacionamiento (avión detenido).</div>
+    <ol class="steps" style="margin-top:12px">
+      <li><p><strong>Subir la palanca amarilla</strong> a posición DISARMED.</p></li>
+      <li><p><strong>Verificar tobogán DESARMADO</strong> en su puerta (DISARMED en verde).</p></li>
+      <li><p><strong>Verificar en la puerta opuesta</strong> (cross check).</p></li>
+      <li><p><strong>Insertar PIN</strong> al lado del letrero DISARMED de la puerta OPUESTA, dejando la cinta ROJA VISIBLE.</p></li>
+      <li><p><strong>Reportar</strong> al JSB. JSB verifica ámbar en DOORS/SLIDES.</p></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.22 SECTOR ALAR ═══════════════════════ -->
+<div class="sección" id="b2122">
+  <div class="sec-title"><span class="sec-num">B2.1.22</span> Salidas Sector Alar A320/A319</div>
+
+  <div class="card amarillo">
+    <h3>Datos Fundamentales</h3>
+    <div class="kv">
+      <span class="k">A320</span><span class="v">4 salidas (2 a cada lado)</span>
+      <span class="k">A319</span><span class="v">2 salidas (1 a cada lado)</span>
+      <span class="k">A321</span><span class="v">NO tiene salidas sector alar</span>
+      <span class="k">Solo en emergencia</span><span class="v">No se usan en operación normal.</span>
+      <span class="k">Apertura exterior</span><span class="v">Desarma automáticamente el tobogán rampa.</span>
+      <span class="k">Apertura interior</span><span class="v">Activa el tobogán rampa (se despliega hacia borde de fuga del ala).</span>
+    </div>
+  </div>
+
+  <div class="card verde">
+    <h3>Cuerdas Zona Alar – Life Lines</h3>
+    <p>Ubicadas en OHB a cada lado de la zona alar. Se instalan en evacuación en <strong>AGUA</strong>. Un extremo al gancho del marco de ventana, el otro a argolla sobre el ala. Tensión con manillas de corredera (Pull Tab).</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.23/24/25 TOBOGANES ═══════════════════════ -->
+<div class="sección" id="b2123">
+  <div class="sec-title"><span class="sec-num">B2.1.23</span> Tobogán (Simple)</div>
+
+  <div class="card">
+    <h3>Características Generales</h3>
+    <div class="kv">
+      <span class="k">Color</span><span class="v">Gris</span>
+      <span class="k">Inflado automático</span><span class="v">Dentro de los 10 SEGUNDOS al abrir la puerta con tobogán armado.</span>
+      <span class="k">Inflado manual</span><span class="v">Tirar manilla roja PULL TO INFLATE (en el piso para puertas 1/4; en marco superior para puertas 2/3 A321).</span>
+      <span class="k">Carriles</span><span class="v">1 carril. Evacúa 1 pasajero a la vez. A321 CEO: "wide" (más anchos).</span>
+      <span class="k">Evacuación en tierra</span><span class="v">Saltar con pies y manos hacia adelante. Tiene luces, cuerda de reingreso (reentry line).</span>
+      <span class="k">En agua</span><span class="v">1 tubo de flotación. Tiene cuerda de amarre (mooring line). Personas en el agua se sujetan de la cuerda alrededor del tubo. NO se puede abordar.</span>
+    </div>
+  </div>
+
+  <div class="card rojo">
+    <h3>Desconexión del Tobogán Simple (en agua)</h3>
+    <ol class="steps">
+      <li><p>Levantar cubierta con inscripción <strong>FOR DITCHING ONLY</strong>.</p></li>
+      <li><p>Tirar completamente la <strong>manija blanca HANDLE</strong> de desconexión.</p></li>
+      <li><p>Cortar la cuerda de amarre (mooring line) con el cuchillo.</p></li>
+    </ol>
+    <div class="hbox rojo"><strong>IMPORTANTE:</strong> Las puertas 2/3 del A321 NO tienen sistema de desconexión → NO pueden usarse como flotación. En ditching deben ser DESARMADAS.</div>
+  </div>
+</div>
+
+<div class="sección" id="b2124">
+  <div class="sec-title"><span class="sec-num">B2.1.24</span> Tobogán Balsa</div>
+
+  <div class="card amarillo">
+    <h3>Características del Tobogán Balsa</h3>
+    <div class="kv">
+      <span class="k">Carriles en tierra</span><span class="v">2 CARRILES → 2 pasajeros simultáneos, uno en cada carril.</span>
+      <span class="k">Capacidad normal</span><span class="v">44 personas</span>
+      <span class="k">Capacidad sobrecarga</span><span class="v">55 personas (con 1 solo tubo operativo)</span>
+      <span class="k">Tubos de flotación</span><span class="v">2 tubos INDEPENDIENTES</span>
+      <span class="k">Inflado automático</span><span class="v">10 segundos al abrir puerta con tobogán armado</span>
+      <span class="k">Inflado manual</span><span class="v">Manilla roja PULL TO INFLATE en el piso</span>
+    </div>
+  </div>
+
+  <div class="card verde">
+    <h3>Equipamiento del Tobogán Balsa (en agua)</h3>
+    <div class="pills">
+      <span class="pill v">2 tubos de flotación independientes</span>
+      <span class="pill v">Cuerda de amarre (mooring line)</span>
+      <span class="pill v">Cubierta FOR DITCHING USE ONLY</span>
+      <span class="pill v">Manija blanca HANDLE de desconexión</span>
+      <span class="pill v">Luces de localización</span>
+      <span class="pill v">Cuchillo adosado al tubo</span>
+      <span class="pill v">Ancla</span>
+      <span class="pill v">Cuerda de rescate</span>
+      <span class="pill v">Mástiles inflables</span>
+      <span class="pill v">2 zonas para abordar desde el agua</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Survival Kit – Contenido</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:.84rem;">
+      <div>
+        <p style="color:var(--am);font-weight:700;font-family:'Barlow Condensed',sans-serif;margin-bottom:6px;">ELEMENTOS BÁSICOS</p>
+        <p>Manual de supervivencia · Esponja deshidratada · Balde de achique · Silbato · Kit reparación balsa · Marcadores de agua · Espejo de señales · Cuchillo · Primeros auxilios · Bolsas de agua</p>
+      </div>
+      <div>
+        <p style="color:var(--am);font-weight:700;font-family:'Barlow Condensed',sans-serif;margin-bottom:6px;">CON VENCIMIENTO</p>
+        <p>Bengalas · Tabletas purificadoras de agua · Inhaladores de amoniaco · Ungüento para quemaduras · Linterna</p>
+        <p style="margin-top:8px;color:var(--ts);font-size:.8rem;">No del módulo pero incluidos: inflador · toldo · mástiles para toldo</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card rojo">
+    <h3>Desconexión del Tobogán Balsa (en agua)</h3>
+    <ol class="steps">
+      <li><p>Levantar cubierta <strong>FOR DITCHING USE ONLY</strong>.</p></li>
+      <li><p>Tirar completamente la <strong>manija blanca HANDLE</strong>.</p></li>
+      <li><p>Cortar mooring line con el cuchillo.</p></li>
+    </ol>
+  </div>
+</div>
+
+<div class="sección" id="b2125">
+  <div class="sec-title"><span class="sec-num">B2.1.25</span> Tobogán Rampa – A320/A319</div>
+
+  <div class="card amarillo">
+    <h3>Características del Tobogán Rampa</h3>
+    <div class="kv">
+      <span class="k">Solo para tierra</span><span class="v">NO se puede desconectar del avión → NO puede usarse en agua.</span>
+      <span class="k">Siempre armado</span><span class="v">NO se puede desarmar. Se despliega al abrir cualquier salida alar.</span>
+      <span class="k">Carriles</span><span class="v">2 CARRILES → 2 pasajeros simultáneos.</span>
+      <span class="k">Inflado</span><span class="v">10 segundos. Manual: PULL TO INFLATE en el marco de la salida alar.</span>
+      <span class="k">Habilitado en tierra</span><span class="v">Cuando la baranda está INFLADA.</span>
+    </div>
+    <div class="hbox verde" style="margin-top:10px"><strong>Si falla el inflado:</strong> puede usarse como LONA DESLIZANTE sostenida por 2 a 4 personas (ABPs) desde las manillas laterales. 1 persona a la vez.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.26 OXÍGENO ═══════════════════════ -->
+<div class="sección" id="b2126">
+  <div class="sec-title"><span class="sec-num">B2.1.26</span> Sistema de Oxígeno</div>
+
+  <div class="card">
+    <h3>Sistema de Oxígeno – Cabina de Mando</h3>
+    <p>Un tanque provee oxígeno a <strong>4 máscaras quick donning</strong> (2 compartimentos dobles a cada lado del cockpit). Las máscaras tienen arnés inflable, micrófono y gafas contra humo. Pueden usarse con lentes ópticos.</p>
+    <div class="kv" style="margin-top:8px">
+      <span class="k">Selector 100%</span><span class="v">Oxígeno PURO.</span>
+      <span class="k">Selector N</span><span class="v">Mezcla de aire ambiente y oxígeno (a demanda).</span>
+      <span class="k">Selector Emergency</span><span class="v">Genera sobre presión para evitar entrada de humo, olores o ceniza.</span>
+    </div>
+  </div>
+
+  <div class="card amarillo">
+    <h3>Sistema de Oxígeno – Cabina de Pasajeros</h3>
+    <div class="kv">
+      <span class="k">Activación automática</span><span class="v">Cuando altitud de cabina llega a <strong>14.000 pies (4.260 metros)</strong>. También activable desde la TM.</span>
+      <span class="k">Duración</span><span class="v">13 o 22 minutos. Una vez activado, NO puede desactivarse.</span>
+      <span class="k">Máscaras TC</span><span class="v">2 por estación de TC.</span>
+      <span class="k">Máscaras baños</span><span class="v">2 por baño.</span>
+      <span class="k">Máscaras pax</span><span class="v">Según PSU + 1 extra por bloque de 3 asientos.</span>
+      <span class="k">Indicador flujo</span><span class="v">Verde cuando el oxígeno fluye por la manguera.</span>
+    </div>
+    <div class="hbox rojo" style="margin-top:10px"><strong>Reacción química:</strong> produce calor → posible olor a quemado, humo y aumento de temperatura en cabina. Es NORMAL. NO es un incendio.</div>
+    <div class="hbox amarillo"><strong>Si máscaras se despliegan sin descompresión:</strong> NO manipular los PSU. JSB informa al Comandante cuántas se desplegaron y si los generadores fueron activados.</div>
+  </div>
+
+  <div class="card verde">
+    <h3>MRT – Manual Release Tool</h3>
+    <p>Herramienta para liberar manualmente la tapa del compartimento del PSU. Se encuentra en un bolsillo en la <strong>parte inferior de algunos jumpseats</strong>. Para usarlo: insertar extremo del MRT en el orificio del contenedor y EMPUJAR.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ B2.1.28 SOPs ═══════════════════════ -->
+<div class="sección" id="b2128">
+  <div class="sec-title"><span class="sec-num">B2.1.28</span> SOPs – Configuración, Responsabilidades y Funciones</div>
+
+  <div class="card amarillo">
+    <h3>Configuración de Tripulaciones</h3>
+    <table class="tbl">
+      <tr><th>Avión</th><th>TC mínimo legal</th><th>Configuración empresa</th></tr>
+      <tr><td>A321</td><td>5 TC</td><td>JSB + TC2 + TC3 + TC4 + TC5</td></tr>
+      <tr><td>A320</td><td>4 TC</td><td>JSB + TC2 + TC3 + TC4</td></tr>
+      <tr><td>A319</td><td>3 TC</td><td>JSB + TC2 + TC3 (o 4 TC*)</td></tr>
+    </table>
+  </div>
+
+  <div class="card rojo">
+    <h3>Responsabilidad de Puertas (MEMORIZAR)</h3>
+    <table class="tbl">
+      <tr><th>Avión</th><th>Dotación</th><th>JSB</th><th>TC2</th><th>TC3</th><th>TC4</th><th>TC5</th></tr>
+      <tr><td>A321</td><td>5 TC</td><td>1L/R</td><td>4L</td><td>4R</td><td>2L/R</td><td>3L/R</td></tr>
+      <tr><td>A320</td><td>4 TC</td><td>1L</td><td>4L</td><td>4R</td><td>1R</td><td>–</td></tr>
+      <tr><td>A319</td><td>4 TC</td><td>1L</td><td>4L</td><td>4R</td><td>1R</td><td>–</td></tr>
+      <tr><td>A319</td><td>3 TC</td><td>1L/R</td><td>4L</td><td>4R</td><td>–</td><td>–</td></tr>
+    </table>
+  </div>
+
+  <div class="card verde">
+    <h3>Funciones por Fase de Vuelo – A320 (Resumen Clave)</h3>
+    <table class="tbl">
+      <tr><th>Fase</th><th>Orden del Comandante / Acción Clave</th></tr>
+      <tr><td>Pre embarque</td><td>JSB revisa CLB. TC efectúan Chequeo Pre Vuelo por zonas. Reportan a JSB → JSB a TM.</td></tr>
+      <tr><td>Embarque</td><td>JSB en puerta 1L / TC2 en puerta 4L / TC3 y TC4 en cabina. Briefing salidas alar: TC3. Abastecimiento: JSB en 1L, TC2 en 4L, TC4 en cabina.</td></tr>
+      <tr><td>Pushback/Despegue</td><td>Orden TM: <strong>"PUERTAS EN AUTOMÁTICO, CROSS CHECK Y REPORTAR"</strong> → Armado toboganes. Demo manual: JSB. Cabina libre: JSB llama INTPH+AFT → "Cabina Libre puertas 4?"</td></tr>
+      <tr><td>Crucero</td><td>Anuncios, chequeo preventivo, cruce cordillera (si aplica), reportes en CLB.</td></tr>
+      <tr><td>Descenso/Aterrizaje</td><td>Orden TM (10.000 pies): <strong>"ASEGURAR CABINA PARA ATERRIZAR"</strong>. Revisión silenciosa. Orden TM: <strong>"PRÓXIMOS AL ATERRIZAJE"</strong> → posición de aterrizaje.</td></tr>
+      <tr><td>Post aterrizaje</td><td>Orden TM: <strong>"PUERTAS EN MANUAL, CROSS CHECK Y REPORTAR"</strong> → Desarmado toboganes. Apertura exterior por personal de tierra.</td></tr>
+    </table>
+  </div>
+
+  <div class="crit">
+    <div class="crit-title">🔴 Órdenes del Comandante – Resumen Completo</div>
+    <table class="tbl" style="margin-top:0">
+      <tr><th>Orden (PA)</th><th>Momento</th><th>Acción de la TC</th></tr>
+      <tr><td>PUERTAS EN AUTOMÁTICO, CROSS CHECK Y REPORTAR</td><td>Antes de primer movimiento</td><td>Armar toboganes + cross check + reportar</td></tr>
+      <tr><td>PUERTAS EN MANUAL, CROSS CHECK Y REPORTAR</td><td>Avión detenido en posición final</td><td>Desarmar toboganes + cross check + reportar</td></tr>
+      <tr><td>TRIPULACIÓN, PRÓXIMOS AL DESPEGUE</td><td>Punto de decisión despegue</td><td>Posición de despegue + revisión silenciosa</td></tr>
+      <tr><td>TRIPULACIÓN, ASEGURAR CABINA PARA ATERRIZAR</td><td>10.000 pies en descenso</td><td>Completar Cabina Libre para aterrizaje</td></tr>
+      <tr><td>TRIPULACIÓN, PRÓXIMOS AL ATERRIZAJE</td><td>Punto de decisión aterrizaje</td><td>Posición de aterrizaje + revisión silenciosa</td></tr>
+      <tr><td>TRIPULACIÓN, ATTENTION CREW, ATTENTION CREW</td><td>Riesgo en cualquier fase</td><td>Suspender funciones, ir a jumpseats, esperar instrucciones</td></tr>
+      <tr><td>TRIPULACIÓN, EVACUACIÓN</td><td>Orden de evacuar</td><td>Iniciar evacuación inmediatamente</td></tr>
+      <tr><td>TRIPULACIÓN, DESEMBARQUE RÁPIDO</td><td>Situación precautoria</td><td>Desembarcar pax por mangas/escaleras sin equipaje</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="margin-top:48px;padding:20px;background:var(--gm);border-radius:12px;text-align:center;font-size:.82rem;color:var(--ts);">
+  <strong style="color:var(--am);font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;">LATAM Airlines Perú · MTC Revisión 04 · 27 ENE 25</strong><br>
+  <span>B2.1.1 → B2.1.28 · Sistema A320FAM · A321 CEO / A320 LOPA ÚNICO / A320 SPACE FLEX 1 / A320 JS BAÑO AFT / A319</span>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// Nav highlight on scroll
+const sections = document.querySelectorAll('.sección[id]');
+const navLinks = document.querySelectorAll('.nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l => l.classList.remove('act'));
+      const link = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+      if(link) link.classList.add('act');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
